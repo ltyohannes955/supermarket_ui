@@ -1,6 +1,10 @@
+"use client";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { Inter } from "next/font/google";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -31,7 +35,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className}>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <Provider store={store}>
+          <MantineProvider theme={theme}>{children}</MantineProvider>
+        </Provider>
       </body>
     </html>
   );
