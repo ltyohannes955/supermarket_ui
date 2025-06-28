@@ -1,4 +1,7 @@
 "use client";
+import { useLoginMutation } from "@/app/services/auth";
+import { Flag02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Button,
   Card,
@@ -8,13 +11,38 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Login() {
+  const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handlLogin = async () => {
+    try {
+      await login({ email: email, password: password }).unwrap();
+      router.push("/");
+    } catch (error) {
+      console.log("Error adding category:", error);
+    }
+  };
   return (
     <>
-      <Flex w={"100%"} h={"100vh"} justify={"center"} align={"center"}>
-        <Card w={"50%"} withBorder shadow="lg">
+      <Flex
+        w={"100%"}
+        h={"100vh"}
+        justify={"center"}
+        direction={"column"}
+        gap={"lg"}
+        align={"center"}
+      >
+        <Flex justify={"center"} align={"center"} gap={"md"}>
+          <HugeiconsIcon icon={Flag02Icon} size={32} />
+          <Text fw={"bold"} fz={"h2"}>
+            FreshMart
+          </Text>
+        </Flex>
+        <Card w={"35%"} withBorder shadow="xl" radius={"lg"}>
           <Flex direction={"column"} gap={"lg"}>
             <Text fw={"bold"} ta={"center"} size="xl">
               Welcome Back, Login
@@ -22,14 +50,18 @@ export default function Login() {
             <TextInput
               label="Email"
               variant="filled"
-              size="xl"
+              size="md"
               placeholder="Enter Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <PasswordInput
               variant="filled"
-              size="xl"
+              size="md"
               label="Password"
               placeholder="Enter Your Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Text
               ta={"right"}
@@ -52,8 +84,10 @@ export default function Login() {
                 size="md"
                 w={"50%"}
                 onClick={() => {
-                  router.push("/");
+                  handlLogin();
                 }}
+                loading={isLoading}
+                loaderProps={{ type: "dots" }}
               >
                 Login
               </Button>
