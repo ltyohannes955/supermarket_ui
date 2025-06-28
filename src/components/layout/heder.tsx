@@ -1,12 +1,14 @@
 "use client";
 import {
   AccountSetting02Icon,
+  Flag02Icon,
   Logout02Icon,
   ShoppingCart01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Avatar, Card, Flex, Menu, Text } from "@mantine/core";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const link = [
@@ -15,24 +17,47 @@ export default function Header() {
     { name: "Products", link: "/products" },
   ];
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <>
-      <Card w={"100%"} h={"7vh"} withBorder padding={"md"}>
+      <Card w={"100%"} h={"7vh"} withBorder px={"xl"}>
         <Flex justify={"space-between"} align={"center"}>
-          <Flex>
-            <Text fw={"bold"}>Logo</Text>
+          <Flex justify={"center"} align={"center"}>
+            <HugeiconsIcon icon={Flag02Icon} />
+            <Text fw={"bold"} fz={"h3"}>
+              FreshMart
+            </Text>
           </Flex>
           <Flex gap={"xl"}>
             {link.map((link) => (
               <Text
                 key={link.name}
-                size="lg"
+                size="md"
                 onClick={() => {
                   router.push(link.link);
                 }}
+                style={{
+                  position: "relative",
+                  cursor: "pointer",
+                  color: pathname === link.link ? "#e92933" : undefined,
+                }}
               >
                 {link.name}
+                {pathname === link.link && (
+                  <Text
+                    span
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: "0%",
+                      width: "50%",
+                      height: "2px",
+                      backgroundColor: "#e92933",
+                      borderRadius: "1px",
+                    }}
+                  />
+                )}
               </Text>
             ))}
           </Flex>
