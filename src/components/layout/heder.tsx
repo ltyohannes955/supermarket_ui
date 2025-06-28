@@ -9,8 +9,10 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Avatar, Card, Flex, Menu, Text } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function Header() {
+  const user = JSON.parse(Cookies.get("user") || "{}");
   const link = [
     { name: "Home", link: "/" },
     { name: "Categories", link: "/categories" },
@@ -18,7 +20,11 @@ export default function Header() {
   ];
   const router = useRouter();
   const pathname = usePathname();
-
+  const handleLogout = () => {
+    Cookies.remove("token");
+    Cookies.remove("user");
+    router.push("/auth/login");
+  };
   return (
     <>
       <Card w={"100%"} h={"7vh"} withBorder px={"xl"}>
@@ -65,9 +71,7 @@ export default function Header() {
             <HugeiconsIcon icon={ShoppingCart01Icon} />
             <Menu shadow="md" width={200}>
               <Menu.Target>
-                <Avatar color="#ed2b32" radius="xl">
-                  LY
-                </Avatar>
+                <Avatar name={user?.name} color="#ed2b32" radius="xl" />
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item
@@ -75,7 +79,10 @@ export default function Header() {
                 >
                   Profile
                 </Menu.Item>
-                <Menu.Item leftSection={<HugeiconsIcon icon={Logout02Icon} />}>
+                <Menu.Item
+                  leftSection={<HugeiconsIcon icon={Logout02Icon} />}
+                  onClick={() => handleLogout()}
+                >
                   Log Out
                 </Menu.Item>
               </Menu.Dropdown>
