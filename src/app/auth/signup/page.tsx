@@ -10,11 +10,7 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
 
-export default function Signup({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function Signup() {
   const router = useRouter();
   return (
     <>
