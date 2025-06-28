@@ -52,7 +52,7 @@ export default function Login() {
                 size="md"
                 w={"50%"}
                 onClick={() => {
-                  router.push("/home");
+                  router.push("/");
                 }}
               >
                 Login

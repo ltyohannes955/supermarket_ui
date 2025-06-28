@@ -10,7 +10,11 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/navigation";
 
-export default function Signup() {
+export default function Signup({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const router = useRouter();
   return (
     <>
@@ -50,7 +54,7 @@ export default function Signup() {
                 size="md"
                 w={"50%"}
                 onClick={() => {
-                  router.push("/home");
+                  router.push("");
                 }}
               >
                 Sign Up

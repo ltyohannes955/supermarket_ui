@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 
 export default function Header() {
   const link = [
-    { name: "Home", link: "/home" },
+    { name: "Home", link: "/" },
     { name: "Categories", link: "/categories" },
     { name: "Products", link: "/products" },
   ];

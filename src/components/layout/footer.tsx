@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 export default function Footer() {
   const link = [
-    { name: "Home", link: "/home" },
+    { name: "Home", link: "/" },
     { name: "Categories", link: "/categories" },
     { name: "Products", link: "/products" },
   ];
