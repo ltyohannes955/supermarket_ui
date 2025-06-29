@@ -126,7 +126,7 @@ export default function Login() {
             </Button>
 
             <Text ta="center">
-              {"Don't have an account"}
+              {"Don't have an account?"}{" "}
               <Text
                 span
                 c="red"
