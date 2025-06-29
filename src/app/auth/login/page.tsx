@@ -9,10 +9,12 @@ import {
   PasswordInput,
   Text,
   TextInput,
-  rem,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { CheckUnread01Icon, Tick01Icon } from "@hugeicons/core-free-icons";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 export default function Login() {
   const [login, { isLoading }] = useLoginMutation();
@@ -21,11 +23,39 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      notifications.show({
+        title: "Missing Fields",
+        message: "Please fill in both email and password.",
+        color: "orange",
+        icon: <HugeiconsIcon icon={CheckUnread01Icon} />,
+      });
+      return;
+    }
+
     try {
-      await login({ email, password }).unwrap();
+      const res = await login({ email, password }).unwrap();
+      // Save user data (optional)
+      Cookies.set("user", JSON.stringify(res.user), { expires: 7 });
+
+      notifications.show({
+        title: "Login Successful",
+        message: "Welcome back!",
+        color: "green",
+        icon: <HugeiconsIcon icon={Tick01Icon} />,
+      });
+
       router.push("/");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
+      notifications.show({
+        title: "Login Failed",
+        message:
+          error?.data?.message ||
+          "Invalid credentials or server error. Please try again.",
+        color: "red",
+        icon: <HugeiconsIcon icon={CheckUnread01Icon} />,
+      });
     }
   };
 
@@ -96,7 +126,7 @@ export default function Login() {
             </Button>
 
             <Text ta="center">
-              Don't have an account?{" "}
+              {"Don't have an account"}
               <Text
                 span
                 c="red"
