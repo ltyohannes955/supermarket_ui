@@ -93,7 +93,7 @@ export default function Header() {
               >
                 <Flex
                   direction={"column"}
-                  h={"90vh"}
+                  h={"85vh"}
                   justify={"space-between"}
                   gap="lg"
                 >
