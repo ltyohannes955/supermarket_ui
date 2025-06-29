@@ -22,9 +22,8 @@ export default function Categories() {
               ta="center"
               className={classes.description}
             >
-              Page you are trying to open does not exist. You may have mistyped
-              the address, or the page has been moved to another URL. If you
-              think this is an error contact support.
+              Page you are trying to open is still in development it will be
+              avalable shortly sorry for the inconvenience
             </Text>
             <Group justify="center">
               <Button onClick={() => router.push("/")} size="md">
