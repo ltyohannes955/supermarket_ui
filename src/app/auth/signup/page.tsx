@@ -15,107 +15,118 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Signup() {
-  const [value, setValue] = useState<string | null>(null);
+  const [dob, setDob] = useState<string | null>(null);
   const router = useRouter();
+
   return (
-    <>
-      <Flex
-        w={"100%"}
-        h={"100vh"}
-        justify={"center"}
-        direction={"column"}
-        gap={"lg"}
-        align={"center"}
-      >
-        <Flex justify={"center"} align={"center"} gap={"md"}>
-          <HugeiconsIcon icon={Flag02Icon} size={32} />
-          <Text fw={"bold"} fz={"h2"}>
-            FreshMart
-          </Text>
-        </Flex>
-        <Card w={"50%"} withBorder shadow="lg">
-          <Flex direction={"column"} gap={"lg"}>
-            <Text fw={"bold"} ta={"center"} size="xl">
-              Welcome
-            </Text>
-            <Group grow>
-              <TextInput
-                label="First Name"
-                variant="filled"
-                size="md"
-                placeholder="Enter Your First Name"
-              />
-              <TextInput
-                label="Last Name"
-                variant="filled"
-                size="md"
-                placeholder="Enter Your Last Name"
-              />
-            </Group>
-            <Group grow>
-              <DateInput
-                value={value}
-                onChange={setValue}
-                label="Date Of Birth"
-                placeholder="Enter your DOB"
-                variant="filled"
-                size="md"
-              />
-              <TextInput
-                label="Email"
-                variant="filled"
-                size="md"
-                placeholder="Enter Your Email"
-              />
-            </Group>
-            <PasswordInput
-              variant="filled"
-              size="md"
-              label="Password"
-              placeholder="Enter Your Password"
-            />
-            <PasswordInput
-              variant="filled"
-              size="md"
-              label="Password"
-              placeholder="Confirm Your Password"
-            />
-            <Flex
-              w={"100%"}
-              gap={"md"}
-              mt={"md"}
-              direction={"column"}
-              justify={"center"}
-              align={"center"}
-            >
-              <Button
-                size="md"
-                w={"50%"}
-                onClick={() => {
-                  router.push("");
-                }}
-              >
-                Sign Up
-              </Button>
-              <Text ta={"right"}>
-                Have an account?{" "}
-                <Text
-                  span
-                  c={"red"}
-                  onClick={() => {
-                    router.push("/auth/login");
-                  }}
-                  style={{
-                    cursor: "pointer",
-                  }}
-                >
-                  Login
-                </Text>
-              </Text>
-            </Flex>
-          </Flex>
-        </Card>
+    <Flex
+      w="100%"
+      h="100vh"
+      justify="center"
+      align="center"
+      direction="column"
+      gap="lg"
+      px={{ base: "md", sm: "lg" }}
+    >
+      {/* Header */}
+      <Flex justify="center" align="center" gap="md">
+        <HugeiconsIcon icon={Flag02Icon} size={32} />
+        <Text fw="bold" fz="h2">
+          FreshMart
+        </Text>
       </Flex>
-    </>
+
+      {/* Signup Form Card */}
+      <Card
+        w={{ base: "100%", sm: "90%", md: "70%", lg: "50%" }}
+        p="xl"
+        withBorder
+        shadow="lg"
+        radius="lg"
+      >
+        <Flex direction="column" gap="lg">
+          <Text fw="bold" ta="center" size="xl">
+            Welcome
+          </Text>
+
+          {/* First & Last Name */}
+          <Group grow>
+            <TextInput
+              label="First Name"
+              variant="filled"
+              size="md"
+              placeholder="Enter your first name"
+              required
+            />
+            <TextInput
+              label="Last Name"
+              variant="filled"
+              size="md"
+              placeholder="Enter your last name"
+              required
+            />
+          </Group>
+
+          {/* DOB & Email */}
+          <Group grow>
+            <DateInput
+              value={dob}
+              onChange={setDob}
+              label="Date of Birth"
+              placeholder="Enter your DOB"
+              variant="filled"
+              size="md"
+              required
+            />
+            <TextInput
+              label="Email"
+              variant="filled"
+              size="md"
+              placeholder="Enter your email"
+              required
+            />
+          </Group>
+
+          {/* Passwords */}
+          <PasswordInput
+            label="Password"
+            variant="filled"
+            size="md"
+            placeholder="Enter your password"
+            required
+          />
+          <PasswordInput
+            label="Confirm Password"
+            variant="filled"
+            size="md"
+            placeholder="Confirm your password"
+            required
+          />
+
+          {/* Buttons */}
+          <Flex direction="column" gap="md" align="center">
+            <Button
+              size="md"
+              w={{ base: "100%", sm: "70%", md: "50%" }}
+              onClick={() => router.push("/")} // Replace with actual submit
+            >
+              Sign Up
+            </Button>
+
+            <Text ta="center">
+              Have an account?{" "}
+              <Text
+                span
+                c="red"
+                style={{ cursor: "pointer" }}
+                onClick={() => router.push("/auth/login")}
+              >
+                Login
+              </Text>
+            </Text>
+          </Flex>
+        </Flex>
+      </Card>
+    </Flex>
   );
 }

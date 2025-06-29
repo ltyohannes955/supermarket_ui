@@ -1,3 +1,4 @@
+"use client";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/heder";
 import {
@@ -14,6 +15,7 @@ import {
   Button,
   Title,
 } from "@mantine/core";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const whyCards = [
@@ -36,6 +38,8 @@ export default function Home() {
       icon: <HugeiconsIcon icon={PercentCircleIcon} />,
     },
   ];
+
+  const router = useRouter();
   return (
     <>
       <Header />
@@ -78,36 +82,55 @@ export default function Home() {
               radius="lg"
               size="md"
               variant="filled"
+              onClick={() => router.push("/products")}
             >
               Shop Now
             </Button>
           </Flex>
         </BackgroundImage>
 
-        <Flex w={"75%"} direction={"column"} gap={"lg"} mt={"lg"}>
-          <Title ta={"left"} fz={"h1"} fw={"bolder"}>
-            Why Choose FreshMart? <br />{" "}
-            <Text c={"gray"}>
-              {`Experience the covenoence and quality of FreshMart's online
-              grocery service.`}
-            </Text>
+        <Flex
+          w="75%"
+          direction="column"
+          gap="lg"
+          mt="lg"
+          px={{ base: "sm", sm: "md", md: "xl" }}
+        >
+          <Title ta="left" fz="h1" fw="bolder">
+            Why Choose FreshMart?
           </Title>
-          <Flex w={"100%"} justify={"space-around"} mb={"lg"}>
+          <Text ta="left" c="gray">
+            {`Experience the convenience and quality of FreshMart's online grocery service.`}
+          </Text>
+
+          <Flex
+            w="100%"
+            justify={{
+              base: "center",
+              sm: "space-between",
+              md: "space-around",
+            }}
+            wrap="wrap"
+            rowGap="lg"
+            columnGap="md"
+            mb="lg"
+          >
             {whyCards.map((card) => (
               <Card
                 key={card.name}
                 shadow="md"
                 withBorder
-                radius={"md"}
-                w={"25%"}
+                radius="md"
+                w={{ base: "100%", sm: "45%", md: "30%", lg: "22%" }}
+                p="md"
               >
-                <Flex direction={"column"} gap={"md"}>
+                <Flex direction="column" gap="md">
                   {card.icon}
-                  <Text fw={"bold"} size="md">
-                    {card.name} <br />
-                    <Text span c={"grey"}>
-                      {card.description}
-                    </Text>
+                  <Text fw="bold" size="md">
+                    {card.name}
+                  </Text>
+                  <Text c="gray" size="sm">
+                    {card.description}
                   </Text>
                 </Flex>
               </Card>
