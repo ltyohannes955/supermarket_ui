@@ -1,4 +1,5 @@
 "use client";
+
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/heder";
 import { useGetAllProductsQuery } from "../services/products";
@@ -18,12 +19,15 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Search01Icon,
   ShoppingCartCheckIn01Icon,
+  Alert01Icon,
 } from "@hugeicons/core-free-icons";
 import { useMediaQuery } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/app/store/cartSlice";
 import { RootState } from "@/app/store/store";
 import { useState } from "react";
+import Cookies from "js-cookie";
+import { notifications } from "@mantine/notifications";
 
 export default function Products() {
   const theme = useMantineTheme();
@@ -134,15 +138,26 @@ export default function Products() {
                       <HugeiconsIcon
                         icon={ShoppingCartCheckIn01Icon}
                         color="#e92933"
-                        onClick={() =>
+                        onClick={() => {
+                          const user = Cookies.get("user");
+                          if (!user) {
+                            notifications.show({
+                              title: "Login Required",
+                              message: "You need to log in to order products.",
+                              color: "red",
+                              icon: <HugeiconsIcon icon={Alert01Icon} />,
+                            });
+                            return;
+                          }
+
                           dispatch(
                             addToCart({
                               ...product,
                               id: product._id,
                               quantity: 1,
                             })
-                          )
-                        }
+                          );
+                        }}
                         style={{ cursor: "pointer" }}
                       />
                     )}
