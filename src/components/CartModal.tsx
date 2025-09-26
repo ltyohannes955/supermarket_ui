@@ -56,27 +56,12 @@ export default function CartModal({ opened, onClose }: CartModalProps) {
     customer_phone_number: "",
   });
 
-  const [hasSearched] = useState(false);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
-
-  const fetchRoute = async (origin: string, destination: string) => {
-    if (origin && destination) {
-      try {
-        const response = await fetch(
-          `https://liyt-api-849543905413.europe-west1.run.app/orders/get_price?origin=${origin}&destination=${destination}`
-        );
-        const data = await response.json();
-      } catch (error) {
-        console.error("Error fetching route:", error);
-      }
-    }
   };
 
   const handlePriceCalculation = async (
@@ -90,10 +75,7 @@ export default function CartModal({ opened, onClose }: CartModalProps) {
         `https://liyt-api-849543905413.europe-west1.run.app/orders/get_price?origin=${originLat},${originLon}&destination=${destinationLat},${destinationLon}`
       );
       const data = await response.json();
-      fetchRoute(
-        `${originLat},${originLon}`,
-        `${destinationLat},${destinationLon}`
-      );
+
       setFormData((prevData) => ({
         ...prevData,
         price: data.payload.total_price,
