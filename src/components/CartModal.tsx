@@ -35,21 +35,15 @@ interface CartModalProps {
 }
 
 export default function CartModal({ opened, onClose }: CartModalProps) {
-  const [pickUp, setPickUp] = useState([]);
   const [dropOff, setDropOff] = useState([]);
-  const [pickUpInput, setPickUpInput] = useState("");
   const [dropOffInput, setDropOffInput] = useState("");
   const [originLat, setOriginLat] = useState("");
   const [originLon, setOriginLon] = useState("");
   const [destinationLat, setDestinationLat] = useState("");
   const [destinationLon, setDestinationLon] = useState("");
-  const [price, setPrice] = useState<number | null>(null);
-  const [routeCoordinates, setRouteCoordinates] = useState<any[]>([]);
   const [creatOrder, { isLoading }] = useAddOrderMutation();
-  const [orderInit, { isLoading: isOrderInitLoading, data: orderInitData }] =
-    useOrderInitMutation();
-  const [createDeliveryOrder, { isLoading: isCreateOrderLoading }] =
-    useCreateOrderMutation();
+  const [orderInit] = useOrderInitMutation();
+  const [createDeliveryOrder] = useCreateOrderMutation();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
   const dispatch = useDispatch();
@@ -79,7 +73,6 @@ export default function CartModal({ opened, onClose }: CartModalProps) {
           `https://liyt-api-849543905413.europe-west1.run.app/orders/get_price?origin=${origin}&destination=${destination}`
         );
         const data = await response.json();
-        setRouteCoordinates(data.payload.directions);
       } catch (error) {
         console.error("Error fetching route:", error);
       }
@@ -97,7 +90,6 @@ export default function CartModal({ opened, onClose }: CartModalProps) {
         `https://liyt-api-849543905413.europe-west1.run.app/orders/get_price?origin=${originLat},${originLon}&destination=${destinationLat},${destinationLon}`
       );
       const data = await response.json();
-      setPrice(data.payload.total_price);
       fetchRoute(
         `${originLat},${originLon}`,
         `${destinationLat},${destinationLon}`
@@ -119,9 +111,7 @@ export default function CartModal({ opened, onClose }: CartModalProps) {
       const data = await response.json();
       if (type === "primary") {
         if (data.payload.data && data.payload.data.length > 0) {
-          setPickUp(data.payload.data);
         } else {
-          setPickUp([]); // Clear pickUp if no data
           alert(
             "The location you are trying to set does not exist. Please try again."
           ); // Show alert
@@ -155,8 +145,6 @@ export default function CartModal({ opened, onClose }: CartModalProps) {
   ) => {
     const { latitude, longitude, name } = location;
     if (type === "primary") {
-      setPickUpInput(name);
-      setPickUp([]);
       setOriginLat(latitude);
       setOriginLon(longitude);
       if (destinationLat && destinationLon) {
